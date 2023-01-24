@@ -1,0 +1,15 @@
+{
+  "name": "chat-gpt-node-tg-bot-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "AleshaIdetUchitca",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "node-telegram-bot-api": "^0.61.0",
+    "openai": "^3.1.0"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
