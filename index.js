@@ -12,8 +12,15 @@ const openai = new OpenAIApi(configuration);
 // Init tg bot
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true });
 
+const userTgIdStr = process.env.TELEGRAM_ID;
+const userTgId = userTgIdStr && parseInt(userTgIdStr);
+
 bot.on("message", async (msg) => {
     const chatId = msg.chat.id;
+
+    if (userTgId && userTgId !== msg.from.id) {
+        return bot.sendMessage(chatId, "У вас нет доступа к этому боту💩");
+    }
 
     const prompt = msg.reply_to_message
         ? `${msg.reply_to_message.text}\n\n${msg.text}`
@@ -21,8 +28,6 @@ bot.on("message", async (msg) => {
 
     // Use the OpenAI API to generate a response
     try {
-        // console.log(prompt);
-
         const response = await openai.createCompletion({
             model: "text-davinci-003",
             prompt: prompt,
@@ -31,10 +36,11 @@ bot.on("message", async (msg) => {
             top_p: 1.0,
             frequency_penalty: 0.5,
             presence_penalty: 0.0,
-            stop: ["You:"],
         });
 
-        bot.sendMessage(chatId, response.data.choices[0].text);
+        const message = response.data.choices[0].text || "Не удалось найти ответ";
+
+        bot.sendMessage(chatId, message);
     } catch (error) {
         console.error(error);
     }
