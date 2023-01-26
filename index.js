@@ -30,9 +30,14 @@ bot.on("message", async (msg) => {
     try {
         const response = await openai.createCompletion({
             model: "text-davinci-003",
+
             prompt: prompt,
+
+            // prompt: msg.text,
+            // suffix: msg.reply_to_message?.text,
+
             temperature: 0.5,
-            max_tokens: 1000,
+            max_tokens: 256,
             top_p: 1.0,
             frequency_penalty: 0.5,
             presence_penalty: 0.0,
