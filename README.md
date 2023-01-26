@@ -1,4 +1,4 @@
-### Chat GPT telegram bot
+# Chat GPT telegram bot
 
 ## Add .env with tokens for root directory
 
